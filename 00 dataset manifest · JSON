@@ -1,0 +1,111 @@
+{
+  "dataset_name": "Telecom Configuration Drifter Dataset",
+  "version": "1.0.0",
+  "generated_at": "2026-03-16T06:23:08.626932Z",
+  "time_range": {
+    "start": "2024-01-01T00:00:00Z",
+    "end": "2024-01-31T23:59:59Z"
+  },
+  "description": "Synthetic telecom configuration drift dataset for ML training, anomaly detection, research and monitoring.",
+  "files": {
+    "01_device_configs.csv": {
+      "description": "Network device (router/switch) configuration snapshots \u2013 daily snapshots with injected drift",
+      "rows": 1050,
+      "drift_label_distribution": {
+        "config_drift": 55,
+        "normal": 915,
+        "policy_violation": 22,
+        "unauthorized_change": 29,
+        "version_mismatch": 29
+      },
+      "key_features": [
+        "device_id",
+        "device_type",
+        "ios_version",
+        "mtu",
+        "ospf_area",
+        "acl_permit_src",
+        "ntp_server",
+        "snmp_community",
+        "config_hash",
+        "drift_label"
+      ]
+    },
+    "02_bgp_routing_logs.csv": {
+      "description": "BGP session and routing events with policy violations and route anomalies",
+      "rows": 3000,
+      "drift_label_distribution": {
+        "config_drift": 183,
+        "normal": 2624,
+        "policy_violation": 132,
+        "unauthorized_change": 61
+      },
+      "key_features": [
+        "router_id",
+        "peer_ip",
+        "bgp_state_from",
+        "bgp_state_to",
+        "prefix_count",
+        "local_pref",
+        "next_hop",
+        "drift_label"
+      ]
+    },
+    "03_snmp_syslog.csv": {
+      "description": "Syslog messages + SNMP OID metrics with CPU/memory/error spikes",
+      "rows": 8000,
+      "drift_label_distribution": {
+        "config_drift": 320,
+        "normal": 7031,
+        "policy_violation": 338,
+        "unauthorized_change": 311
+      },
+      "key_features": [
+        "host",
+        "severity",
+        "facility",
+        "mnemonic",
+        "message",
+        "snmp_cpu_util_pct",
+        "snmp_mem_util_pct",
+        "snmp_if_errors",
+        "drift_label"
+      ]
+    },
+    "04_cdr_records.csv": {
+      "description": "Call Detail Records with codec mismatches, QoS violations and toll fraud signals",
+      "rows": 6000,
+      "drift_label_distribution": {
+        "config_drift": 300,
+        "normal": 5291,
+        "policy_violation": 270,
+        "unauthorized_change": 139
+      },
+      "key_features": [
+        "call_id",
+        "call_type",
+        "codec",
+        "mos_score",
+        "jitter_ms",
+        "packet_loss_pct",
+        "anomaly_type",
+        "drift_label"
+      ]
+    }
+  },
+  "drift_labels": {
+    "normal": "No configuration drift detected",
+    "config_drift": "Parameter changed from established baseline (MTU, OSPF area, codec, etc.)",
+    "policy_violation": "Configuration violates network policy (ACL, local-pref, MED, QoS, off-hours)",
+    "unauthorized_change": "Change made outside authorized change window or by unknown user",
+    "version_mismatch": "IOS/firmware version inconsistency across fleet"
+  },
+  "suggested_ml_tasks": [
+    "Binary classification: normal vs. drift",
+    "Multi-class classification: 5-way drift type",
+    "Time-series anomaly detection (LSTM/Transformer)",
+    "Unsupervised clustering for drift discovery",
+    "Rule-based alerting baseline benchmarks"
+  ],
+  "total_records": 18050
+}
